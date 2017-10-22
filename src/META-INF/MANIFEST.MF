@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: me.ellie.sunnybot.SunnyBotMain
+Main-Class: de.ellie.sunnybot.SunnyBotMain
 
