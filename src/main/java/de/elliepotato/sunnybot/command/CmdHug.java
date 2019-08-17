@@ -1,10 +1,9 @@
 package de.elliepotato.sunnybot.command;
 
 import de.elliepotato.sunnybot.SunnyBot;
-import de.elliepotato.sunnybot.util.DiscordUtil;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 /**
  * Created by Ellie on 05/05/2017 for YT-er Sunny.

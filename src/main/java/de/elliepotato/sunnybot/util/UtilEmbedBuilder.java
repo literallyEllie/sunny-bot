@@ -1,8 +1,7 @@
 package de.elliepotato.sunnybot.util;
 
-
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ public class UtilEmbedBuilder extends EmbedBuilder {
      * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      * See the License for the specific language governing permissions and
      * limitations under the License.
-     *
      */
     private final Field fieldsField;
     private List<MessageEmbed.Field> fields;

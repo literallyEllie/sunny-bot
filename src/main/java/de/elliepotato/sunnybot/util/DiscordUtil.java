@@ -9,6 +9,7 @@ public class DiscordUtil {
 
     public static final long BOT_SELF = 309345192232615937L;
     public static final long CHANNEL_GENERAL = 309256299923767297L;
+    public static final long CHANNEL_STAFF = 309276723013484544L;
 
     public static final Pattern PATTERN_USER_ID = Pattern.compile("<!?@\\d{17,20}>");
 

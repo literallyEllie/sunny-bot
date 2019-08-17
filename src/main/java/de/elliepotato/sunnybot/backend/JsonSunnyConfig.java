@@ -2,7 +2,6 @@ package de.elliepotato.sunnybot.backend;
 
 import de.arraying.kotys.JSON;
 import de.arraying.kotys.JSONField;
-import de.elliepotato.sunnybot.SunnyBot;
 
 import java.io.*;
 

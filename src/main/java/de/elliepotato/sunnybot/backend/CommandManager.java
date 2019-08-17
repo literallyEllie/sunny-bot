@@ -2,14 +2,14 @@ package de.elliepotato.sunnybot.backend;
 
 import com.google.common.collect.Maps;
 import de.elliepotato.sunnybot.SunnyBot;
-import de.elliepotato.sunnybot.command.*;
+import de.elliepotato.sunnybot.command.SunnyCommand;
 import de.elliepotato.sunnybot.util.CommandCooldown;
 import de.elliepotato.sunnybot.util.DiscordUtil;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
@@ -135,7 +135,6 @@ public class CommandManager extends ListenerAdapter {
     private void removeCooldown(SunnyCommand sunnyCommand) {
         cooldowns.remove(sunnyCommand.getName().toLowerCase());
     }
-
 
 
 }

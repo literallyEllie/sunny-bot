@@ -1,11 +1,11 @@
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '1.2.4'
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
     id 'application'
 }
 
 group 'de.elliepotato'
-version '1.0-SNAPSHOT'
+version '4.2-RELEASE'
 
 mainClassName = "de.elliepotato.sunnybot.SunnyBotMain"
 sourceCompatibility = 1.8
@@ -13,33 +13,33 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    jcenter()
+
+    // JDA
+    maven { url "https://dl.bintray.com/dv8fromtheworld/maven" }
 
     // Kotys
     maven {
         url 'https://jitpack.io'
     }
 
-    // jda
-    maven { url "https://dl.bintray.com/dv8fromtheworld/maven" }
 
 }
 
 dependencies {
     // JDA
-    compile 'net.dv8tion:JDA:3.5.1_339'
+    compile 'net.dv8tion:JDA:4.0.0_39'
 
     // Logging
     compile "ch.qos.logback:logback-classic:1.2.3"
 
     // Backend
-    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
-    compile group: 'com.zaxxer', name: 'HikariCP', version: '2.7.6'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
+    compile group: 'com.zaxxer', name: 'HikariCP', version: '3.3.1'
 
     // Util
-    compile group: 'org.reflections', name: 'reflections', version: '0.9.10' // command registerer
-    compile "com.github.Arraying:Kotys:0.3.3" // json
-
-
+    compile group: 'org.reflections', name: 'reflections', version: '0.9.11' // command registerer
+    compile "com.github.Arraying:Kotys:0.5.1" // json
 
 }
 

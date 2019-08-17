@@ -3,15 +3,12 @@ package de.elliepotato.sunnybot.command;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import de.elliepotato.sunnybot.SunnyBot;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.utils.PermissionUtil;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.internal.utils.PermissionUtil;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Ellie on 03/05/2017 for YT-er Sunny.

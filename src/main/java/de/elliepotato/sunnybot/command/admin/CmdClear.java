@@ -3,11 +3,9 @@ package de.elliepotato.sunnybot.command.admin;
 import de.elliepotato.sunnybot.SunnyBot;
 import de.elliepotato.sunnybot.command.SunnyCommand;
 import de.elliepotato.sunnybot.util.DiscordUtil;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-
-import java.util.concurrent.TimeUnit;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 /**
  * Created by Ellie on 07/05/2017 for YT-er Sunny.

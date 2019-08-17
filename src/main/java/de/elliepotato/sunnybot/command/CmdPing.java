@@ -1,8 +1,8 @@
 package de.elliepotato.sunnybot.command;
 
 import de.elliepotato.sunnybot.SunnyBot;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 /**
  * Created by Ellie on 06/05/2017 for YT-er Sunny.
@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 public class CmdPing extends SunnyCommand {
 
     public CmdPing(SunnyBot sunnyBot) {
-        super(sunnyBot,"ping", "Pong!", Permission.MESSAGE_WRITE, "ping");
+        super(sunnyBot, "ping", "Pong!", Permission.MESSAGE_WRITE, "ping");
         setCooldown(20);
     }
 

@@ -3,9 +3,9 @@ package de.elliepotato.sunnybot.command.admin;
 import de.elliepotato.sunnybot.SunnyBot;
 import de.elliepotato.sunnybot.command.SunnyCommand;
 import de.elliepotato.sunnybot.util.DiscordUtil;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 /**
  * Created by Ellie on 06/05/2017 for YT-er Sunny.
@@ -26,15 +26,15 @@ public class CmdJoinMessage extends SunnyCommand {
         TextChannel textChannel = e.getChannel();
 
         if (args.length == 0) {
-            textChannel.sendMessage(correctUsage()).queue();
-            textChannel.sendMessage("Current join message: `" + join + "`\n" +
-                    "Enabled " + enabled).queue();
+            getSunnyBot().messageChannel(textChannel, correctUsage());
+            getSunnyBot().messageChannel(textChannel, "Current join message: `" + join + "`\n" +
+                    "Enabled " + enabled);
             return;
         }
 
         if (args[0].equalsIgnoreCase("toggle")) {
             enabled = !enabled;
-            textChannel.sendMessage("Join message " + (enabled ? "enabled" : "disabled")).queue();
+            getSunnyBot().messageChannel(textChannel, "Join message " + (enabled ? "enabled" : "disabled"));
             updateToggled(enabled);
         } else {
             String message = DiscordUtil.getFinalArg(args, 1);

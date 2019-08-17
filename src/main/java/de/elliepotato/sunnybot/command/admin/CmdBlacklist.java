@@ -3,12 +3,11 @@ package de.elliepotato.sunnybot.command.admin;
 import com.google.common.base.Joiner;
 import de.elliepotato.sunnybot.SunnyBot;
 import de.elliepotato.sunnybot.command.SunnyCommand;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**

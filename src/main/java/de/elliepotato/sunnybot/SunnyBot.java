@@ -5,12 +5,16 @@ import de.elliepotato.sunnybot.backend.JsonSunnyConfig;
 import de.elliepotato.sunnybot.backend.SQLData;
 import de.elliepotato.sunnybot.backend.console.SunnyConsole;
 import de.elliepotato.sunnybot.backend.mysql.MySQLManager;
+import de.elliepotato.sunnybot.listener.FunResponder;
 import de.elliepotato.sunnybot.listener.UserLeaveJoinListener;
 import de.elliepotato.sunnybot.util.DiscordRaffle;
 import de.elliepotato.sunnybot.util.DiscordUtil;
-import net.dv8tion.jda.core.*;
-import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.AccountType;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class SunnyBot {
 
-    public static String VERSION = "4";
+    public static String VERSION = "4.2-release";
 
     private final Logger LOGGER = LoggerFactory.getLogger("SunnyBot");
 
@@ -39,10 +43,11 @@ public class SunnyBot {
 
     private DiscordRaffle discordRaffle;
 
-
     SunnyBot() {
         LOGGER.info("Beginning startup...");
         long start = System.currentTimeMillis();
+
+        Thread.currentThread().setName("SunnyBot-Main");
 
         LOGGER.info("Initialising config...");
         sunnyConfig = new JsonSunnyConfig().load();
@@ -58,12 +63,12 @@ public class SunnyBot {
             userLeaveJoinListener = new UserLeaveJoinListener(this, sqlData.getJoinMessage(), sqlData.getLeaveMsg());
             jda = new JDABuilder(AccountType.BOT).
                     setToken(sunnyConfig.getToken())
-                    .setGame(Game.playing(sunnyConfig.getBotGame()))
+                    .setActivity(Activity.playing(sunnyConfig.getBotGame()))
                     .setStatus(OnlineStatus.fromKey(sunnyConfig.getBotState()))
-                    .addEventListener(commandManager, userLeaveJoinListener)
-                    .buildBlocking();
+                    .addEventListeners(commandManager, userLeaveJoinListener, new FunResponder())
+                    .build();
 
-        } catch (LoginException | InterruptedException e) {
+        } catch (LoginException e) {
             LOGGER.error("Failed to setup JDA!", e);
             e.printStackTrace();
             shutdown(1);
@@ -72,7 +77,7 @@ public class SunnyBot {
 
         LOGGER.info("Starting console thread...");
         console = new SunnyConsole(this);
-        console.run();
+        console.start();
 
         LOGGER.info("Startup finished in " + (System.currentTimeMillis() - start) + "ms!");
 
@@ -153,12 +158,12 @@ public class SunnyBot {
     }
 
     /**
-     * Message any channel that implements {@link Channel}
+     * Message any channel that implements {@link MessageChannel}
      *
      * @param channel Channel ID
      * @param message Message to send
      */
-    public void messageChannel(Channel channel, String message) {
+    public void messageChannel(MessageChannel channel, String message) {
         messageChannel(channel.getIdLong(), message);
     }
 
@@ -175,12 +180,12 @@ public class SunnyBot {
     }
 
     /**
-     * Message any channel that implements {@link Channel}
+     * Message any channel that implements {@link MessageChannel}
      *
      * @param channel Channel ID
      * @param message embed to send
      */
-    public void messageChannel(Channel channel, MessageEmbed message) {
+    public void messageChannel(MessageChannel channel, MessageEmbed message) {
         messageChannel(channel.getIdLong(), message);
     }
 
@@ -203,13 +208,13 @@ public class SunnyBot {
     }
 
     /**
-     * Send a temporary message to a discord channel that implements {@link Channel} (aka all of them)
+     * Send a temporary message to a discord channel that implements {@link MessageChannel} (aka all of them)
      *
      * @param channel    The channel to send to
      * @param message    The message content
      * @param expireTime After what delay should the message be deleted
      */
-    public void tempMessage(Channel channel, String message, int expireTime, Message cleanupMsg) {
+    public void tempMessage(MessageChannel channel, String message, int expireTime, Message cleanupMsg) {
         tempMessage(channel.getIdLong(), message, expireTime, cleanupMsg);
     }
 
@@ -235,7 +240,8 @@ public class SunnyBot {
 
     /**
      * Attempt to parse from an input string to a {@link User}.
-     *  Will attempt to parse from: a raw ID, a mention or a User#Discrim
+     * Will attempt to parse from: a raw ID, a mention or a User#Discrim
+     *
      * @param input The input to parse from.
      * @return the user or null if failed to parse
      */

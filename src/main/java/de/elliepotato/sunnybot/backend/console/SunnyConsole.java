@@ -2,10 +2,9 @@ package de.elliepotato.sunnybot.backend.console;
 
 import de.elliepotato.sunnybot.SunnyBot;
 import de.elliepotato.sunnybot.util.DiscordUtil;
-import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.api.entities.Activity;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
@@ -51,21 +50,21 @@ public class SunnyConsole extends Thread {
                         case "watching":
                             if (args.length < 2) {
                                 cu((args[0].toLowerCase() + " <to>"));
-                                if (sunnyBot.getJda().getPresence().getGame() != null) {
-                                    sunnyBot.getLogger().info("You're currently: " + sunnyBot.getJda().getPresence().getGame().getName());
+                                if (sunnyBot.getJda().getPresence().getActivity() != null) {
+                                    sunnyBot.getLogger().info("You're currently: " + sunnyBot.getJda().getPresence().getActivity().getName());
                                 }
                                 break;
                             }
                             String to = DiscordUtil.getFinalArg(args, 1);
                             switch (args[0].toLowerCase()) {
                                 case "listening":
-                                    sunnyBot.getJda().getPresence().setGame(Game.listening(to));
+                                    sunnyBot.getJda().getPresence().setActivity(Activity.listening(to));
                                     break;
                                 case "playing":
-                                    sunnyBot.getJda().getPresence().setGame(Game.playing(to));
+                                    sunnyBot.getJda().getPresence().setActivity(Activity.playing(to));
                                     break;
                                 case "watching":
-                                    sunnyBot.getJda().getPresence().setGame(Game.watching(to));
+                                    sunnyBot.getJda().getPresence().setActivity(Activity.watching(to));
                                     break;
                             }
                             sunnyBot.getLogger().info("Now " + args[0].toLowerCase() + " to: " + to);

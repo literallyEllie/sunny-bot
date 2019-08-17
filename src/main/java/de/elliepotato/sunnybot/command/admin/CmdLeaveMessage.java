@@ -3,9 +3,9 @@ package de.elliepotato.sunnybot.command.admin;
 import de.elliepotato.sunnybot.SunnyBot;
 import de.elliepotato.sunnybot.command.SunnyCommand;
 import de.elliepotato.sunnybot.util.DiscordUtil;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 /**
  * Created by Ellie on 06/05/2017 for YT-er Sunny.
@@ -16,7 +16,7 @@ public class CmdLeaveMessage extends SunnyCommand {
     private boolean enabled;
 
     public CmdLeaveMessage(SunnyBot sunnyBot) {
-        super(sunnyBot,"leavemsg", "Leave message options", Permission.KICK_MEMBERS, "leavemsg [toggle | <message>]");
+        super(sunnyBot, "leavemsg", "Leave message options", Permission.KICK_MEMBERS, "leavemsg [toggle | <message>]");
         this.leave = getSunnyBot().getSqlData().getLeaveMsg();
         this.enabled = getSunnyBot().getSqlData().isLeaveEnabled();
     }
@@ -26,15 +26,15 @@ public class CmdLeaveMessage extends SunnyCommand {
         TextChannel textChannel = e.getChannel();
 
         if (args.length == 0) {
-            textChannel.sendMessage(correctUsage()).queue();
-            textChannel.sendMessage("Current leave message: `" + leave + "`\n" +
-                    "Enabled " + enabled).queue();
+            getSunnyBot().messageChannel(textChannel, correctUsage());
+            getSunnyBot().messageChannel(textChannel, "Current leave message: `" + leave + "`\n" +
+                    "Enabled " + enabled);
             return;
         }
 
         if (args[0].equalsIgnoreCase("toggle")) {
             enabled = !enabled;
-            textChannel.sendMessage("Leave message " + (enabled ? "enabled" : "disabled")).queue();
+            getSunnyBot().messageChannel(textChannel, "Leave message " + (enabled ? "enabled" : "disabled"));
             updateToggled(enabled);
         } else {
             final String message = DiscordUtil.getFinalArg(args, 1);

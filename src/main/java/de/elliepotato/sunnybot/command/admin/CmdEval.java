@@ -2,13 +2,12 @@ package de.elliepotato.sunnybot.command.admin;
 
 import de.elliepotato.sunnybot.SunnyBot;
 import de.elliepotato.sunnybot.command.SunnyCommand;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Ellie on 03/05/2017 for YT-er Sunny.
