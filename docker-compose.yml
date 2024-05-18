@@ -1,0 +1,6 @@
+services:
+  app:
+    image: sunnybot:latest
+    build: .
+    env_file:
+      - .env

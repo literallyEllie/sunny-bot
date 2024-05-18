@@ -5,3 +5,5 @@ import dev.kord.core.Kord
 interface AppFeature {
     fun register(kord: Kord)
 }
+
+interface FeatureProperties

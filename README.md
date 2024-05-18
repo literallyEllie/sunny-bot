@@ -17,10 +17,12 @@ Only to be inevitably be forgotten about.
 
 - Respond to basic regex matches with predefined messages.
 - Not get exploited by raids, hopefully.
+- Wave to people who write an introduction.
+- Welcome messages.
 
 ### Planned Features
 
-..
+- f1 race tracker? or however it works
 
 ## Nerd stuff
 
@@ -36,3 +38,5 @@ The bits that make up the bot are referred to as "AppFeature"s.
 They are registered in the Router.
 
 They can either be event handlers, slash commands or a combination.
+
+AppFeatures can have properties which are associated to a Server.

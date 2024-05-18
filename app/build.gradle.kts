@@ -1,40 +1,41 @@
 plugins {
     application
-    `kotlin-dsl`
-    `java-library`
     id("convention-kotlin")
     id("convention-style")
     id("convention-test")
+    kotlin("plugin.serialization") version "1.9.24"
 }
 
 repositories {
-    // Discord
     // Kord
     maven("https://oss.sonatype.org/content/repositories/snapshots")
-    // extensions
-//    maven("https://s01.oss.sonatype.org/content/repositories/snapshots")
 }
 
 dependencies {
+    // serialization
+    implementation(libs.kotlin.serialization)
+
     // di
     implementation(libs.koin)
 
     // discord
     implementation(libs.kord.core)
-//    implementation(libs.kord.extentions)
+    implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
 
+    // logging
     implementation(libs.kermit)
-
-    testImplementation(kotlin("test"))
 }
 
 application {
     mainClass.set("com.elliegabel.sunnybot.AppKt")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(17)
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "com.elliegabel.sunnybot.AppKt"
+    }
+    configurations["compileClasspath"].forEach { file: File ->
+        from(zipTree(file.absoluteFile))
+    }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }

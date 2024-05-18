@@ -16,5 +16,4 @@ class Router {
 
         // Register commands
     }
-
 }

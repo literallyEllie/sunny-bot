@@ -17,13 +17,13 @@ class AppConfig : KoinComponent {
         GlobalContext.startKoin {
             modules(ModulesConfig.allModules)
 
-            // priortise env
+            // prioritise env
             fileProperties()
             environmentProperties()
         }
 
         // setup Kord
-        val kord = Kord(getKoin().getProperty("bot_token") ?: throw NullPointerException("Bot token required"))
+        val kord = Kord(getKoin().getProperty("DISCORD_TOKEN") ?: throw NullPointerException("Bot token required"))
         router.register(kord)
 
         Logger.withTag("bootstrap").i { "App configured and ready for login!" }

@@ -1,0 +1,37 @@
+{
+  "servers": [
+    {
+      "id": 309256299923767297,
+      "features": [
+        {
+          "type": "WelcomeFeature",
+          "welcomeMessageEnabled": true,
+          "welcomeMessageChannelId": 309256299923767297,
+          "welcomeMessage": "Hello {mention}! Welcome to Sunny's Discord. Remember to read the rules (In the pinned messages)!",
+          "introductionWaveEnabled": true,
+          "introductionWaveChannelId": 379235702447144970
+        },
+        {
+          "type": "DumbResponder",
+          "enabled": true,
+          "channels": [
+            309256299923767297
+          ]
+        }
+      ]
+    },
+    {
+      "id": 322276536407556117,
+      "features": [
+        {
+          "type": "WelcomeFeature",
+          "welcomeMessageEnabled": true,
+          "welcomeMessageChannelId": 349657148458008576,
+          "welcomeMessage": "{mention} pulled up",
+          "introductionWaveEnabled": true,
+          "introductionWaveChannelId": 349657148458008576
+        }
+      ]
+    }
+  ]
+}

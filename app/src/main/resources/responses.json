@@ -1,0 +1,5 @@
+{
+  "(?i)(good\\s+morning)|(morn)|morning": ":coffee: Morning",
+  "(?i)good\\s+night": ":new_moon_with_face: Night",
+  "(?i)bye|cya": ":wave:"
+}

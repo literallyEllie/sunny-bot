@@ -8,5 +8,6 @@ import dev.kord.gateway.PrivilegedIntent
 suspend fun main() {
     AppConfig().setup().login {
         intents += Intent.MessageContent
+        intents += Intent.GuildMembers
     }
 }
