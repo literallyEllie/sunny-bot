@@ -1,7 +1,7 @@
 package com.elliegabel.sunnybot.util
 
 /**
- * Ratelimiter for an entity.
+ * Rate-limiter for an entity.
  *
  * For example, if the [capacity] is 10, and [refillRate] is 1.0,
  * 10 tokens can be used per second.
@@ -17,6 +17,7 @@ class TokenBucket(private val capacity: Int, private val refillRate: Double) {
             tokens -= count.toDouble()
             return true
         }
+
         return false
     }
 
@@ -25,6 +26,7 @@ class TokenBucket(private val capacity: Int, private val refillRate: Double) {
         val now = System.currentTimeMillis()
         val elapsedTime = now - lastRefillTime
         val tokensToAdd = elapsedTime / 1000.0 * refillRate
+
         tokens = (tokens + tokensToAdd).coerceAtMost(capacity.toDouble())
         lastRefillTime = now
     }

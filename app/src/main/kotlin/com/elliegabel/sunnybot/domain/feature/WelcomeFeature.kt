@@ -1,8 +1,9 @@
 package com.elliegabel.sunnybot.domain.feature
 
-import com.elliegabel.sunnybot.domain.AppFeature
-import com.elliegabel.sunnybot.domain.FeatureProperties
+import com.elliegabel.sunnybot.domain.feature.model.AppFeature
+import com.elliegabel.sunnybot.domain.feature.model.FeatureProperties
 import com.elliegabel.sunnybot.domain.service.DiscordService
+import com.elliegabel.sunnybot.domain.service.GuildSettingsService
 import dev.kord.common.entity.Snowflake
 import dev.kord.core.Kord
 import dev.kord.core.entity.Member
@@ -18,8 +19,11 @@ import kotlinx.serialization.Serializable
 /**
  * Sends welcome messages and reacts to introduction messages with a friendly emoji :)
  */
-class WelcomeFeature(private val discordService: DiscordService) : AppFeature {
-    override fun register(kord: Kord) {
+class WelcomeFeature(
+    private val discordService: DiscordService,
+    private val settings: GuildSettingsService,
+) : AppFeature {
+    override suspend fun register(kord: Kord) {
         kord.on<MemberJoinEvent> {
             handleMemberJoinEvent(this)
         }
@@ -30,7 +34,7 @@ class WelcomeFeature(private val discordService: DiscordService) : AppFeature {
     }
 
     private suspend fun handleMemberJoinEvent(event: MemberJoinEvent) {
-        val server = discordService.getServer(event.guildId) ?: return
+        val server = settings.getGuildSettings(event.guildId) ?: return
         val properties = server.featureProperties<Properties>() ?: return
 
         if (!properties.shouldSendWelcomeMessage() || properties.welcomeMessageChannelId == null) {
@@ -49,13 +53,13 @@ class WelcomeFeature(private val discordService: DiscordService) : AppFeature {
         }
 
         val finalMessage = properties.welcomeMessage?.formatWelcomeMessage(event.member) ?: return
-        discordService.message(server, channel, finalMessage)
+        discordService.message(channel, finalMessage)
     }
 
     private suspend fun handleMessageCreateEvent(event: MessageCreateEvent) {
         if (event.message.content.isEmpty()) return
 
-        val server = discordService.getServer(event.guildId) ?: return
+        val server = settings.getGuildSettings(event.guildId) ?: return
         val properties = server.featureProperties<Properties>() ?: return
 
         if (!properties.shouldWaveInChannel(event.message)) {
@@ -67,7 +71,7 @@ class WelcomeFeature(private val discordService: DiscordService) : AppFeature {
             return
         }
 
-        discordService.react(server, event.message, REACTION_WAVE)
+        discordService.react(event.guildId, event.message, REACTION_WAVE)
     }
 
     private fun Properties.shouldSendWelcomeMessage(): Boolean {

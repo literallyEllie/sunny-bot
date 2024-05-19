@@ -1,0 +1,22 @@
+[
+  {
+    "id": 12345,
+    "features": [
+      {
+        "type": "WelcomeFeature",
+        "welcomeMessageEnabled": true,
+        "welcomeMessageChannelId": 12345,
+        "welcomeMessage": "Hello {mention}! Welcome to my fun Discord",
+        "introductionWaveEnabled": true,
+        "introductionWaveChannelId": 123456
+      },
+      {
+        "type": "DumbResponder",
+        "enabled": true,
+        "enabledChannels": [
+          123456
+        ]
+      }
+    ]
+  }
+]

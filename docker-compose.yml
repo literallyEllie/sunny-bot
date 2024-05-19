@@ -1,6 +1,8 @@
 services:
   app:
-    image: sunnybot:latest
+    image: sunnybot:0.0.2-2
     build: .
+    volumes:
+      - /etc/sunnybot/config:/app/config
     env_file:
       - .env

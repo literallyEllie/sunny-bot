@@ -23,20 +23,65 @@ Only to be inevitably be forgotten about.
 ### Planned Features
 
 - f1 race tracker? or however it works
+- birthday wishes
+- polls
+- dice roll
+- trivia
 
 ## Nerd stuff
 
-### Basic flow
+### Composition
 
-1. The Discord bot is instantiated using the [Kord](https://github.com/kordlib/kord) library in the "AppConfig".
-2. Gather all the "AppFeature"s with [Koin](https://insert-koin.io) and pass the Kord instance.
-3. "App" logs in with the required intents.
+#### AppFeature
 
-### The bot
+AppFeatures do stuff and can manifest as:
+- Event Handlers
+- Slash Commands (`Command` subtype)
+- all of the above.
 
-The bits that make up the bot are referred to as "AppFeature"s.
-They are registered in the Router.
+An `AppFeature` can have `FeatureProperties` which allow each Guild to modify how it behaves.
+These are properties are stored in a `GuildSettings`
 
-They can either be event handlers, slash commands or a combination.
+#### GuildSettings
 
-AppFeatures can have properties which are associated to a Server.
+*As of now these have to be manually defined in a JSON file (`guild-settings.json`),
+if it is not defined the bot will not serve the Guild.
+This bot is only meant for 1 server anyway.*
+
+`GuildSettings` hold `FeatureProperties` which features can optionally define by:
+1. Have a class implementing `FeatureProperties`
+2. Mark as `@Serializable` with `@SerialName("<feature name>")`
+3. Append to the features `SerializersModule`
+
+Example:
+
+`DumbResponder.kt`
+```kotlin
+class DumbResponder {
+    @Serializable
+    @SerialName("DumbResponder")
+    data class Properties(
+        val enabled: Boolean = false,
+        val enabledChannels: Set<Long> = setOf(),
+    ) : FeatureProperties
+}
+```
+
+`SerializersModule.kt`
+```kotlin
+val featurePropertiesModule = 
+    ...
+            polymorphic(
+                FeatureProperties::class,
+                DumbResponder.Properties::class,
+                DumbResponder.Properties.serializer(),
+            )
+    ...
+```
+
+This can then be accessed by:
+```kotlin
+        val server = settingsService.getGuildSettings(event.guildId)
+        val properties = server.featureProperties<Properties>()
+```
+yipee.
