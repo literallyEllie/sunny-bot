@@ -1,39 +1,16 @@
 package com.elliegabel.sunnybot.domain.service
 
 import co.touchlab.kermit.Logger
-import com.elliegabel.sunnybot.domain.feature.model.AppFeature
 import com.elliegabel.sunnybot.util.TokenBucket
 import dev.kord.common.entity.Snowflake
-import dev.kord.core.Kord
 import dev.kord.core.behavior.channel.asChannelOf
 import dev.kord.core.entity.Message
 import dev.kord.core.entity.ReactionEmoji
 import dev.kord.core.entity.channel.TextChannel
-import dev.kord.gateway.Intent
-import dev.kord.gateway.PrivilegedIntent
 import org.koin.mp.KoinPlatform
 
 class DiscordService {
-    private lateinit var kord: Kord
     private val tokenBuckets = mutableMapOf<Long, TokenBucket>()
-
-    @OptIn(PrivilegedIntent::class)
-    suspend fun initialise() {
-        kord =
-            Kord(
-                KoinPlatform.getKoin().getProperty("DISCORD_TOKEN")
-                    ?: throw NullPointerException("Bot token required"),
-            )
-
-        // Init features
-        val features: List<AppFeature> = KoinPlatform.getKoin().getAll()
-        features.forEach { it.register(kord) }
-
-        kord.login {
-            intents += Intent.MessageContent
-            intents += Intent.GuildMembers
-        }
-    }
 
     suspend fun message(
         channel: TextChannel,

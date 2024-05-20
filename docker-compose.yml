@@ -1,6 +1,6 @@
 services:
   app:
-    image: sunnybot:0.0.2-2
+    image: sunnybot:${VERSION}
     build: .
     volumes:
       - /etc/sunnybot/config:/app/config
