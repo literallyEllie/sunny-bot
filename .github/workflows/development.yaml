@@ -1,0 +1,36 @@
+on:
+  workflow_call:
+  push:
+
+name: Check and Test
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    env:
+      GITHUB_TOKEN: ${{ secrets.BUILD_SECRET }}
+    steps:
+      - name: "☁️ checkout repository"
+        uses: actions/checkout@v4
+
+      - name: "☕️ java 21"
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'adopt'
+          cache: gradle
+          server-id: skirmish-github
+
+      - name: "🐘 setup Gradle"
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: "🧹 clean"
+        run: ./gradlew clean
+
+      - name: "🔍 style check"
+        run: ./gradlew spotlessCheck
+
+      - name: "🔍 static analysis"
+        run: ./gradlew detekt
