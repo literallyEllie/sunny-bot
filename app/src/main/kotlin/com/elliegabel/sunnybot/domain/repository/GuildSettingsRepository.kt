@@ -28,7 +28,7 @@ class GuildSettingsRepository {
     operator fun get(guildId: Long): GuildSettings? = getSettings(guildId)
 
     private fun loadSettings(): Map<Long, GuildSettings> {
-        val settings = File("config", FILE_REPOSITORY)
+        val settings = File(DIR_CONFIG, FILE_REPOSITORY)
         if (!settings.isFile) {
             Logger.w { "Guild settings repository does not exist: ${settings.name}" }
             return mapOf()
@@ -37,10 +37,11 @@ class GuildSettingsRepository {
         val decoded = json.decodeFromString<List<GuildSettings>>(settings.readText())
         Logger.withTag("bootstrap").i { "Loaded ${decoded.size} server definitions" }
 
-        return decoded.associateBy { it.id }
+        return decoded.associateBy { it.guildId }
     }
 
     private companion object {
+        const val DIR_CONFIG = "config"
         const val FILE_REPOSITORY = "guild-settings.json"
     }
 }

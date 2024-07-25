@@ -3,7 +3,7 @@ plugins {
 }
 
 kotlinDslPluginOptions {
-    jvmTarget.set("17")
+    jvmTarget.set("21")
 }
 
 dependencies {

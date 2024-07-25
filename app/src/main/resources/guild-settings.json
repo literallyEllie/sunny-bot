@@ -1,6 +1,6 @@
 [
   {
-    "id": 12345,
+    "guildId": 12345,
     "features": [
       {
         "type": "WelcomeFeature",

@@ -9,16 +9,9 @@ plugins {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
 }
-
-//    tasks.withType<JavaCompile> {
-//            options.encoding = "UTF-8"
-//            sourceCompatibility = "17"
-//            targetCompatibility = "17"
-//
-//    }
 
 val libs = the<LibrariesForLibs>()
 val implementation by configurations
