@@ -4,10 +4,11 @@ import com.elliegabel.sunnybot.config.SerializersModule
 import com.elliegabel.sunnybot.domain.GuildSettings
 import com.elliegabel.sunnybot.domain.feature.model.AppFeature
 import com.elliegabel.sunnybot.domain.feature.model.FeatureProperties
+import com.elliegabel.sunnybot.domain.service.DiscordService
 import com.elliegabel.sunnybot.domain.service.GuildSettingsService
 import dev.kord.common.entity.Permission
+import dev.kord.common.entity.Snowflake
 import dev.kord.core.Kord
-import dev.kord.core.behavior.reply
 import dev.kord.core.entity.Member
 import dev.kord.core.entity.Message
 import dev.kord.core.event.message.MessageCreateEvent
@@ -19,6 +20,7 @@ import kotlinx.serialization.Serializable
  * Stops invite links from being posted from authenticated users.
  */
 class NoInvitesFeature(
+    private val service: DiscordService,
     private val settings: GuildSettingsService,
     private val moderationFeature: ModerationFeature,
 ) : AppFeature {
@@ -49,7 +51,7 @@ class NoInvitesFeature(
 
         guild.logger.i { "Message ${message.content} contains invite" }
 
-        message.replyAndDelete().also {
+        message.replyAndDelete(event.guildId).also {
             logDeletion(event.kord, guild, message)
         }
     }
@@ -71,9 +73,12 @@ class NoInvitesFeature(
         return !isBot && !getPermissions().values.contains(Permission.ManageMessages)
     }
 
-    private suspend fun Message.replyAndDelete() {
-        this.reply { content = "Sorry, no invite links!" }
+    private suspend fun Message.replyAndDelete(guildId: Snowflake?) {
         this.delete(reason = "contains non-whitelisted invite link")
+
+        author?.mention.let { mention ->
+            service.reply(guildId, this, "Sorry $mention, no invite links!")
+        }
     }
 
     /**

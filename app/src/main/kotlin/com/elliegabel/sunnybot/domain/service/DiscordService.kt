@@ -1,6 +1,7 @@
 package com.elliegabel.sunnybot.domain.service
 
 import co.touchlab.kermit.Logger
+import com.elliegabel.sunnybot.util.SnowflakeCooldown
 import com.elliegabel.sunnybot.util.TokenBucket
 import dev.kord.common.entity.Snowflake
 import dev.kord.core.behavior.channel.asChannelOf
@@ -11,6 +12,7 @@ import org.koin.mp.KoinPlatform
 
 class DiscordService {
     private val tokenBuckets = mutableMapOf<Long, TokenBucket>()
+    private val replyCooldowns = mutableMapOf<Long, SnowflakeCooldown>()
 
     suspend fun message(
         channel: TextChannel,
@@ -34,12 +36,13 @@ class DiscordService {
         response: String,
     ) {
         guildId ?: return
+        val authorId = message.author?.id ?: return
 
-        guildId.logger().d { "Replying to message from ${message.author?.id}: $response" }
+        guildId.logger().d { "Replying to message from $authorId: $response" }
 
         // The idea with this is to avoid raiding... not a great history with that.
-        if (!guildId.tryConsumeToken()) {
-            guildId.logger().w { "Message rate-limited ($maxMessageThreshold reached within $bucketRefillRate)" }
+        if (!authorId.tryConsumeCooldown()) {
+            guildId.logger().d { "Can't reply to $authorId, response on cooldown" }
             return
         }
 
@@ -63,12 +66,20 @@ class DiscordService {
         message.addReaction(reactionEmoji)
     }
 
-    private fun Snowflake.bucket(): TokenBucket {
+    private fun Snowflake.guildTokenBucket(): TokenBucket {
         return tokenBuckets.computeIfAbsent(this.value.toLong()) { TokenBucket(maxMessageThreshold, bucketRefillRate) }
     }
 
     private fun Snowflake.tryConsumeToken(): Boolean {
-        return bucket().tryConsume()
+        return guildTokenBucket().tryConsume()
+    }
+
+    private fun Snowflake.guildCooldowns(): SnowflakeCooldown {
+        return replyCooldowns.computeIfAbsent(this.value.toLong()) { SnowflakeCooldown() }
+    }
+
+    private fun Snowflake.tryConsumeCooldown(): Boolean {
+        return guildCooldowns().tryCooldown(this)
     }
 
     private fun Snowflake.logger(): Logger = Logger.withTag(this.value.toString())

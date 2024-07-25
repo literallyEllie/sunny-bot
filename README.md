@@ -19,6 +19,7 @@ Only to be inevitably be forgotten about.
 - Not get exploited by raids, hopefully.
 - Wave to people who write an introduction.
 - Welcome messages.
+- Stop unauthorized invite links.
 
 ### Planned Features
 
@@ -29,6 +30,15 @@ Only to be inevitably be forgotten about.
 - trivia
 
 ## Nerd stuff
+
+### Config
+
+Bot config files are by default located at `/env/sunnybot`
+
+### Building + Deploy
+
+1. `./gradlew build`
+2. Execute the docker-compose file.
 
 ### Composition
 

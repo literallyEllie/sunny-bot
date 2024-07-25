@@ -18,6 +18,11 @@
         ]
       },
       {
+        "type": "ModerationFeature",
+        "logAutoMod": true,
+        "logChannelId": 1234567
+      },
+      {
         "type": "NoInvitesFeature",
         "enabled": true,
         "blacklistRegex": "(https?:\\/\\/)?(www\\.)?discord(app)?\\.(com\\/invite\\/|com\\/servers\\/|gg\\/(invite\\/)?)[A-z0-9]+",

@@ -1,6 +1,7 @@
 package com.elliegabel.sunnybot.config
 
 import com.elliegabel.sunnybot.domain.feature.DumbResponseFeature
+import com.elliegabel.sunnybot.domain.feature.ModerationFeature
 import com.elliegabel.sunnybot.domain.feature.NoInvitesFeature
 import com.elliegabel.sunnybot.domain.feature.WelcomeFeature
 import com.elliegabel.sunnybot.domain.feature.model.FeatureProperties
@@ -27,6 +28,12 @@ object SerializersModule {
                 FeatureProperties::class,
                 DumbResponseFeature.Properties::class,
                 DumbResponseFeature.Properties.serializer(),
+            )
+            // moderation
+            polymorphic(
+                FeatureProperties::class,
+                ModerationFeature.Properties::class,
+                ModerationFeature.Properties.serializer(),
             )
             polymorphic(
                 FeatureProperties::class,
