@@ -16,6 +16,14 @@
         "enabledChannels": [
           123456
         ]
+      },
+      {
+        "type": "NoInvitesFeature",
+        "enabled": true,
+        "blacklistRegex": "(https?:\\/\\/)?(www\\.)?discord(app)?\\.(com\\/invite\\/|com\\/servers\\/|gg\\/(invite\\/)?)[A-z0-9]+",
+        "whitelistedMatches": [
+          "discord.gg/example"
+        ]
       }
     ]
   }

@@ -1,6 +1,7 @@
 package com.elliegabel.sunnybot.config
 
 import com.elliegabel.sunnybot.domain.feature.DumbResponseFeature
+import com.elliegabel.sunnybot.domain.feature.NoInvitesFeature
 import com.elliegabel.sunnybot.domain.feature.WelcomeFeature
 import com.elliegabel.sunnybot.domain.feature.command.Command8Ball
 import com.elliegabel.sunnybot.domain.feature.command.CommandCoinFlip
@@ -30,6 +31,7 @@ object ModulesConfig {
         module {
             single { DumbResponseFeature(get(), get()) } bind AppFeature::class
             single { WelcomeFeature(get(), get()) } bind AppFeature::class
+            single { NoInvitesFeature(get(), get()) } bind AppFeature::class
         }
     private val commandsModule =
         module {
